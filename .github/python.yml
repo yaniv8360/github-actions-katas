@@ -1,4 +1,4 @@
-name: CI
+name: Python
 
 # Controls when the workflow will run
 on:
