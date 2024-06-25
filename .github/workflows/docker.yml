@@ -1,4 +1,4 @@
-name: Main workflow
+name: docker workflow
 on: push
 env: # Set the secret as an input
   docker_username: ${{ github.actor }} 
