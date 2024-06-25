@@ -1,4 +1,4 @@
-name: Reusable workflow
+name: Reusable workflow1
 on:
   workflow_dispatch:
     inputs:
@@ -7,11 +7,7 @@ on:
         type: string
         required: true
         default: World
-    outputs:
-      current-time:
-        description: 'The time when greeting.'
-        value: ${{ jobs.reusable-job.outputs.current-time }}
-        
+
 jobs:
   reusable-job:
     runs-on: ubuntu-latest
@@ -19,7 +15,7 @@ jobs:
       current-time: ${{ steps.time.outputs.time }}
     steps:
       - name: Greet someone
-        run: echo "Hello ${{ inputs.who-to-greet }}"
+        run: echo "Hello ${{ github.event.inputs['who-to-greet'] }}"
       - name: Set time
         id: time
         run: echo "time=$(date)" >> $GITHUB_OUTPUT
@@ -31,7 +27,7 @@ jobs:
         run: echo "another line"
 
   depending-job:
-    needs: [reusable-job,another-job]
+    needs: [reusable-job, another-job]
     runs-on: ubuntu-latest
     steps:
       - name: another echo
