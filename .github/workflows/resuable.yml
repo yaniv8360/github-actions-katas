@@ -11,6 +11,7 @@ on:
       current-time:
         description: 'The time when greeting.'
         value: ${{ jobs.reusable-job.outputs.current-time }}
+        
 jobs:
   reusable-job:
     runs-on: ubuntu-latest
@@ -22,11 +23,13 @@ jobs:
       - name: Set time
         id: time
         run: echo "time=$(date)" >> $GITHUB_OUTPUT
+
   another-job:
     runs-on: ubuntu-latest
     steps:
       - name: another echo
         run: echo "another line"
+
   depending-job:
     needs: [reusable-job,another-job]
     runs-on: ubuntu-latest
