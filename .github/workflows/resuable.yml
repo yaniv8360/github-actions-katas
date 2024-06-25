@@ -1,34 +1,21 @@
-name: Reusable workflow1
-on:
-  workflow_dispatch:
-    inputs:
-      who-to-greet:
-        description: 'The person to greet'
-        type: string
-        required: true
-        default: World
+name: Use Secrets
+
+on: [push]
 
 jobs:
-  reusable-job:
+  use_secrets_job:
     runs-on: ubuntu-latest
-    outputs:
-      current-time: ${{ steps.time.outputs.time }}
-    steps:
-      - name: Greet someone
-        run: echo "Hello ${{ github.event.inputs['who-to-greet'] }}"
-      - name: Set time
-        id: time
-        run: echo "time=$(date)" >> $GITHUB_OUTPUT
+    environment: env1
 
-  another-job:
-    runs-on: ubuntu-latest
     steps:
-      - name: another echo
-        run: echo "another line"
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Print secret
+      run: echo ${{ secrets.MY_SECRET }}
 
-  depending-job:
-    needs: [reusable-job, another-job]
-    runs-on: ubuntu-latest
-    steps:
-      - name: another echo
-        run: echo "another line"
+    - name: Print secret
+      run: echo ${{ secrets.MY_SECRET }} > 1.txt
+
+    - name: Run tmate
+      uses: mxschmitt/action-tmate@v2
